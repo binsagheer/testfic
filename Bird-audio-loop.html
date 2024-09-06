@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Animation with Music</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Infinite loop of bird animation with background music and optimized for SEO.">
+    <meta name="keywords" content="bird animation, background music, infinite loop, SEO optimized, browser support">
+    <meta name="author" content="Umair's Client">
+    
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        /* Full-screen GIF as background without using cover */
+        body {
+            background-image: url('https://i.pinimg.com/originals/a8/38/83/a83883bc09c956f67033a83d1a1f1240.gif'); /* Replace with bird GIF URL */
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: auto; /* Removed cover */
+        }
+
+        #counter {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: black;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 5px;
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        /* Outdated Browser Message */
+        #outdatedMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 3;
+        }
+
+        #okButton {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #okButton:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Outdated Browser Message -->
+    <div id="outdatedMessage">
+        <div>
+            <p>Your browser is outdated. Please update to a modern browser for the best experience.</p>
+            <button id="okButton" onclick="closeMessage()">OK</button>
+        </div>
+    </div>
+
+    <div id="container">
+        <div id="counter">0s</div>
+    </div>
+
+    <!-- Local Audio File with Loop -->
+    <audio id="backgroundAudio" autoplay loop>
+        <source src="videoplayback.m4a" type="audio/mpeg"> <!-- Replace with your local MP3 file path -->
+        <source src="videoplayback.ogg" type="audio/ogg"> <!-- Optional OGG format for better compatibility -->
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        var secondsOnPage = 0;
+
+        // Start the counter to track time on the page
+        function startCounter() {
+            setInterval(function() {
+                secondsOnPage++;
+                document.getElementById('counter').innerText = secondsOnPage + "s";
+            }, 1000);
+        }
+
+        // Start the counter on page load
+        startCounter();
+
+        // Function to close outdated message
+        function closeMessage() {
+            document.getElementById('outdatedMessage').style.display = 'none';
+        }
+
+        // Detect outdated browsers (Chrome, Firefox, Edge, Safari, IE <= 10)
+        function detectOutdatedBrowser() {
+            var ua = navigator.userAgent;
+            var outdated = false;
+
+            // Chrome < 40
+            var isOldChrome = ua.indexOf("Chrome") > -1 && parseInt(ua.match(/Chrome\/(\d+)/)[1], 10) < 40;
+
+            // Firefox < 40
+            var isOldFirefox = ua.indexOf("Firefox") > -1 && parseInt(ua.match(/Firefox\/(\d+)/)[1], 10) < 40;
+
+            // Internet Explorer <= 10
+            var isOldIE = ua.indexOf('MSIE ') > -1 || ua.indexOf('Trident/') > -1;
+
+            // Edge < 12
+            var isOldEdge = ua.indexOf("Edge") > -1 && parseInt(ua.match(/Edge\/(\d+)/)[1], 10) < 12;
+
+            // Safari < 9
+            var isOldSafari = ua.indexOf("Safari") > -1 && ua.indexOf("Version") > -1 && parseInt(ua.match(/Version\/(\d+)/)[1], 10) < 9;
+
+            if (isOldChrome || isOldFirefox || isOldIE || isOldEdge || isOldSafari) {
+                outdated = true;
+            }
+
+            if (outdated) {
+                document.getElementById('outdatedMessage').style.display = 'flex';
+            }
+        }
+
+        detectOutdatedBrowser();
+    </script>
+</body>
+</html>
